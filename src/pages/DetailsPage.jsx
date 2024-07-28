@@ -25,6 +25,7 @@ const DetailsPage = () => {
       ?.map((writer) => writer.name)
       .join(', ') || 'N/A'
   console.log('creData', creditsData)
+
   if (loading) {
     return (
       <div>

@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { setBannerData, setImageURL } from './store/movieSlice'
 import apiClient from './api/apiConfig'
 import { tmdbAPI } from './api/tmdbApi'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   const dispath = useDispatch()
@@ -43,6 +44,7 @@ function App() {
 
       <Footer />
       <MobileNavigation />
+      <ScrollToTop />
     </main>
   )
 }
