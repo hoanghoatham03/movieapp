@@ -29,5 +29,6 @@ export const tmdbAPI = {
   getDetails: (type, id) => `/${type}/${id}`,
   getCredits: (type, id) => `/${type}/${id}/credits`,
   getSimilar: (type, id) => `/${type}/${id}/similar`,
-  getRecommendations: (type, id) => `/${type}/${id}/recommendations`
+  getRecommendations: (type, id) => `/${type}/${id}/recommendations`,
+  getVideos: (type, id) => `/${type}/${id}/videos`
 }
