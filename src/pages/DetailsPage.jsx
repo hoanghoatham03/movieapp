@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { tmdbAPI } from '../api/tmdbApi'
 import useFetchDetails from '../hooks/useFetchDetails'
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import moment from 'moment'
 import Divider from '../components/Divider'
 import HorizontalScrollCard from '../components/HorizontalScrollCard'
+import VideoPlay from '../components/VideoPlay'
 
 const DetailsPage = () => {
   const params = useParams()
@@ -16,7 +17,12 @@ const DetailsPage = () => {
   const { data: creditsData } = useFetchDetails(tmdbAPI.getCredits(params.explore, params.id))
   const { data: similarData } = useFetch(tmdbAPI.getSimilar(params.explore, params.id))
   const { data: recommendationsData } = useFetch(tmdbAPI.getRecommendations(params.explore, params.id))
-  console.log('similarData', similarData)
+  const [playVideo, setPlayVideo] = useState(false)
+  const [playVideoId, setPlayVideoId] = useState('')
+  const handlePlayVideo = (data) => {
+    setPlayVideoId(data)
+    setPlayVideo(true)
+  }
 
   const duration = data?.runtime ? `${Math.floor(data.runtime / 60)}h ${data.runtime % 60}m` : 'N/A'
   const writer =
@@ -50,6 +56,12 @@ const DetailsPage = () => {
         <div className='container mx-auto px-3 py-16 lg:py-0 flex flex-col lg:flex-row gap-5 lg:gap-10'>
           <div className='relative mx-auto lg:-mt-28 lg:mx-0 w-fit min-w-60'>
             <img src={imageURL + data?.poster_path} alt='' className='w-60 h-80 object-cover rounded' />
+            <button
+              onClick={() => handlePlayVideo(data)}
+              className='w-full bg-white text-black py-2 mt-3 font-bold rounded-md hover:scale-105 hover:bg-gradient-to-l from-red-700 to-orange-500 shadow-md transition-all '
+            >
+              Watch Now
+            </button>
           </div>
           <div>
             <h2 className='text-2xl lg:text-4xl text-white font-bold'>{data?.title || data?.name}</h2>
@@ -124,6 +136,7 @@ const DetailsPage = () => {
             media_type={params?.explore}
           />
         </div>
+        {playVideo && <VideoPlay data={playVideoId} close={() => setPlayVideo(false)} media_type={params?.explore} />}
       </div>
     )
   }
