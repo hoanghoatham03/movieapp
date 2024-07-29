@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { tmdbAPI } from '../api/tmdbApi'
 import useFetchDetails from '../hooks/useFetchDetails'
@@ -30,7 +30,6 @@ const DetailsPage = () => {
       .filter((crew) => crew.job === 'Writer')
       ?.map((writer) => writer.name)
       .join(', ') || 'N/A'
-  console.log('creData', creditsData)
 
   if (loading) {
     return (

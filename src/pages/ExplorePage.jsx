@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { tmdbAPI } from '../api/tmdbApi'
 import Card from '../components/Card'
@@ -11,10 +11,10 @@ const ExplorePage = () => {
   const fetchData = async () => {
     try {
       const response = await tmdbAPI.getDisCover(params.explore, pageNo)
-      console.log('response', response)
+
       setData((prevData) => [...prevData, ...response.results])
     } catch (error) {
-      console.log('error', error)
+      throw new Error('Failed to fetch data ExplorePage ' + error)
     }
   }
 
@@ -32,7 +32,6 @@ const ExplorePage = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  //when swaping from one explore page to another, pageNo should be reset to 1
   useEffect(() => {
     setPageNo(1)
     setData([])
