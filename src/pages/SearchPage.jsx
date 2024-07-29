@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { tmdbAPI } from '../api/tmdbApi'
 import Card from '../components/Card'
@@ -13,9 +13,8 @@ const SearchPage = () => {
     try {
       const response = await tmdbAPI.getSearch(location.search.split('=')[1], pageNo)
       setData((prevData) => [...prevData, ...response.results])
-      console.log('response', response)
     } catch (error) {
-      console.log('error', error)
+      throw new Error('Failed to fetch data SearchPage' + error)
     }
   }
 
@@ -25,7 +24,6 @@ const SearchPage = () => {
   }
 
   useEffect(() => {
-    console.log('location.search changed:', location.search)
     setPageNo(1)
     setData([])
     fetchData()
@@ -56,8 +54,10 @@ const SearchPage = () => {
       <div className='container mx-auto'>
         <h2 className='capitalize text-lg lg:text-2xl font-semibold my-3'>Search Results</h2>
         <div className='grid grid-cols-[repeat(auto-fit,230px)] justify-center lg:justify-start gap-6'>
-          {data.map((searchData,index) => {
-            return <Card key={searchData.id + 'searchData' + index} data={searchData} media_type={searchData.media_type} />
+          {data.map((searchData, index) => {
+            return (
+              <Card key={searchData.id + 'searchData' + index} data={searchData} media_type={searchData.media_type} />
+            )
           })}
         </div>
       </div>

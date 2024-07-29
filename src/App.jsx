@@ -17,7 +17,7 @@ function App() {
       const response = await apiClient.get(tmdbAPI.getBanner())
       dispath(setBannerData(response.data.results))
     } catch (error) {
-      console.log('trending error', error)
+      throw new Error('Failed to fetch data AppPage' + error)
     }
   }
 
@@ -27,7 +27,7 @@ function App() {
 
       dispath(setImageURL(response.data.images.secure_base_url + 'original'))
     } catch (error) {
-      console.log('configuration error', error)
+      throw new Error('Failed to fetch data AppPage' + error)
     }
   }
 
